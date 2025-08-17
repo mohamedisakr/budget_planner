@@ -1,9 +1,10 @@
 import streamlit as st
 import pandas as pd
 
-from budget_simulator import load_csv_and_manual, clean_expense_data, calculate_summary, get_category_totals
-from budget_visuals import plot_spending_pie, plot_spending_bar
+from budget_simulator import load_csv_and_manual, clean_expense_data, calculate_summary, get_category_totals, get_monthly_trends, get_category_trends
+from budget_visuals import plot_spending_pie, plot_spending_bar, plot_monthly_trends, plot_category_trends
 from budget_notes import generate_budget_notes
+
 
 # --- Page Config ---
 st.set_page_config(page_title="Budget Planner", layout="wide")
@@ -45,6 +46,9 @@ total_expenses, net_savings, savings_progress = calculate_summary(
     df, monthly_income, monthly_savings_goal)
 category_totals = get_category_totals(df)
 
+monthly_trends = get_monthly_trends(df, monthly_income)
+category_trends = get_category_trends(df)
+
 # --- Layout ---
 col1, col2 = st.columns([2, 1])
 
@@ -55,12 +59,19 @@ with col1:
     st.plotly_chart(plot_spending_pie(category_totals),
                     use_container_width=True)
 
+    st.subheader("📆 Monthly Trend Analysis")
+    st.plotly_chart(plot_monthly_trends(
+        monthly_trends), use_container_width=True)
+    st.plotly_chart(plot_category_trends(
+        category_trends), use_container_width=True)
+
 with col2:
     st.subheader("📋 Summary")
     st.metric("Total Expenses", f"{total_expenses:,.0f} EGP")
     st.metric("Net Savings", f"{net_savings:,.0f} EGP")
     st.progress(savings_progress,
                 text=f"Savings Goal Progress: {savings_progress*100:.1f}%")
+
 
 # --- Planner’s Notes ---
 st.subheader("🧠 Planner’s Notes")

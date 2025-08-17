@@ -29,3 +29,15 @@ def calculate_summary(df, monthly_income, monthly_savings_goal):
 
 def get_category_totals(df):
     return df.groupby("Category")["Amount"].sum().reset_index()
+
+
+def get_monthly_trends(df, monthly_income):
+    df["Month"] = df["Date"].dt.to_period("M").astype(str)
+    monthly_totals = df.groupby("Month")["Amount"].sum().reset_index()
+    monthly_totals["Net Savings"] = monthly_income - monthly_totals["Amount"]
+    return monthly_totals
+
+
+def get_category_trends(df):
+    df["Month"] = df["Date"].dt.to_period("M").astype(str)
+    return df.groupby(["Month", "Category"])["Amount"].sum().reset_index()
