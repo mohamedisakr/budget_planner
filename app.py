@@ -10,6 +10,13 @@ st.set_page_config(page_title="Budget Planner", layout="wide")
 st.title("🧮 Monthly Budget Planner")
 
 # --- Sidebar Inputs ---
+st.sidebar.header("Client Profile")
+profile = st.sidebar.selectbox("Select Profile", [
+    "Young Couple",
+    "Solo Professional",
+    "Family Planner"
+])
+
 st.sidebar.header("Income & Goals")
 monthly_income = st.sidebar.number_input(
     "Monthly Income (EGP)", min_value=0.0, value=15000.0, step=500.0)
@@ -58,7 +65,7 @@ with col2:
 # --- Planner’s Notes ---
 st.subheader("🧠 Planner’s Notes")
 notes = generate_budget_notes(
-    category_totals, monthly_income, net_savings, monthly_savings_goal)
+    category_totals, monthly_income, net_savings, monthly_savings_goal, profile)
 
 if notes:
     for note in notes:
