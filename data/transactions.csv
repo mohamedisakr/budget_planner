@@ -1,0 +1,19 @@
+Date,Type,Category,Amount,Description
+2025-07-01 00:00:00,Income,Salary,3000.0,Monthly salary
+2025-07-02 00:00:00,Expense,Food,50.0,Grocery shopping
+2025-07-03 00:00:00,Expense,Transport,30.0,Metro card
+2025-07-04 00:00:00,Expense,Utilities,120.0,Electricity bill
+2025-07-05 00:00:00,Savings,Emergency Fund,200.0,Transfer to savings
+2025-07-06 00:00:00,Expense,Entertainment,40.0,Movie tickets
+2025-07-07 00:00:00,Income,Freelance,500.0,Freelance writing
+2025-07-08 00:00:00,Expense,Food,70.0,Restaurant dinner
+2025-07-09 00:00:00,Expense,Transport,25.0,Fuel
+2025-07-10 00:00:00,Savings,Retirement Fund,150.0,IRA contribution
+2025-07-11 00:00:00,Expense,Health,60.0,Pharmacy
+2025-07-12 00:00:00,Expense,Utilities,100.0,Water bill
+2025-07-13 00:00:00,Expense,Other,35.0,Pet food
+2025-07-14 00:00:00,Expense,Entertainment,60.0,Concert ticket
+2025-07-15 00:00:00,Income,Other,200.0,Gift from friend
+2025-07-14,Expense,Food,-140.0,white cheese
+2025-07-14,Expense,Food,-140.0,white cheese
+2025-07-14,Expense,Food,-20.0,bread
