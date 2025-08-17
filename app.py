@@ -3,7 +3,7 @@ import pandas as pd
 
 from budget_simulator import load_csv_and_manual, clean_expense_data, calculate_summary, get_category_totals, get_monthly_trends, get_category_trends
 from budget_visuals import plot_spending_pie, plot_spending_bar, plot_monthly_trends, plot_category_trends
-from budget_notes import generate_budget_notes
+from budget_notes import generate_budget_notes, generate_planners_notes
 
 
 # --- Page Config ---
@@ -23,6 +23,9 @@ monthly_income = st.sidebar.number_input(
     "Monthly Income (EGP)", min_value=0.0, value=15000.0, step=500.0)
 monthly_savings_goal = st.sidebar.number_input(
     "Savings Goal (EGP)", min_value=0.0, value=3000.0, step=500.0)
+savings_goal = st.number_input(
+    "Set Your Monthly Savings Goal", min_value=0, value=2000, step=500
+)
 
 st.sidebar.header("Upload or Enter Expenses")
 uploaded_file = st.sidebar.file_uploader("Upload CSV", type=["csv"])
@@ -73,10 +76,11 @@ with col2:
                 text=f"Savings Goal Progress: {savings_progress*100:.1f}%")
 
 
-# --- Planner’s Notes ---
-st.subheader("🧠 Planner’s Notes")
+# --- Planner's Notes ---
+st.subheader("🧠 Planner's Notes")
 notes = generate_budget_notes(
     category_totals, monthly_income, net_savings, monthly_savings_goal, profile)
+planner_notes = generate_planners_notes(df, monthly_income, savings_goal)
 
 if notes:
     for note in notes:
@@ -84,6 +88,16 @@ if notes:
 else:
     st.info("No specific notes this month. Keep tracking!")
 
+if planner_notes:
+    for note in notes:
+        st.markdown(f"- {note}")
+# else:
+#     st.info("No specific planner's notes this month.")
+
+# Export as text
+notes_text = "\n".join(notes)
+st.download_button("📥 Download Planner's Notes", notes_text,
+                   file_name="planners_notes.txt")
 
 # old version
 # import streamlit as st

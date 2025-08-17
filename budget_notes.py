@@ -38,6 +38,38 @@ def generate_budget_notes(category_totals, monthly_income, net_savings, savings_
 
     return notes
 
+
+def generate_planners_notes(df, monthly_income, savings_goal):
+    notes = []
+    df["Month"] = df["Date"].dt.to_period("M").astype(str)
+    monthly_summary = df.groupby("Month")["Amount"].sum().reset_index()
+    monthly_summary["Net Savings"] = monthly_income - monthly_summary["Amount"]
+
+    for _, row in monthly_summary.iterrows():
+        month = row["Month"]
+        spent = row["Amount"]
+        net = row["Net Savings"]
+
+        if net < 0:
+            notes.append(
+                f"⚠️ In {month}, spending exceeded income by EGP {abs(net):,.0f}. Consider reviewing discretionary categories.")
+        elif net < savings_goal:
+            notes.append(
+                f"📉 In {month}, savings of EGP {net:,.0f} fell short of the goal (EGP {savings_goal:,.0f}).")
+        else:
+            notes.append(
+                f"✅ In {month}, savings of EGP {net:,.0f} met or exceeded the goal.")
+
+    # Optional: Add category-level observations
+    category_summary = df.groupby(
+        "Category")["Amount"].sum().sort_values(ascending=False)
+    top_category = category_summary.idxmax()
+    top_amount = category_summary.max()
+    notes.append(
+        f"💡 Highest spending category overall: {top_category} (EGP {top_amount:,.0f})")
+
+    return notes
+
 # before adding profile
 # def generate_budget_notes(category_totals, monthly_income, net_savings, savings_goal):
 #     notes = []
