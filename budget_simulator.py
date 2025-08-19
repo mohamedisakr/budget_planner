@@ -41,3 +41,13 @@ def get_monthly_trends(df, monthly_income):
 def get_category_trends(df):
     df["Month"] = df["Date"].dt.to_period("M").astype(str)
     return df.groupby(["Month", "Category"])["Amount"].sum().reset_index()
+
+
+def get_cumulative_savings(df, monthly_income, savings_goal):
+    df["Month"] = df["Date"].dt.to_period("M").astype(str)
+    monthly = df.groupby("Month")["Amount"].sum().reset_index()
+    monthly["Net Savings"] = monthly_income - monthly["Amount"]
+    monthly["Goal"] = savings_goal
+    monthly["Cumulative Savings"] = monthly["Net Savings"].cumsum()
+    monthly["Cumulative Goal"] = monthly["Goal"].cumsum()
+    return monthly

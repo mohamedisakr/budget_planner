@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
 
-from budget_simulator import load_csv_and_manual, clean_expense_data, calculate_summary, get_category_totals, get_monthly_trends, get_category_trends
-from budget_visuals import plot_spending_pie, plot_spending_bar, plot_monthly_trends, plot_category_trends, plot_category_goals
+from budget_simulator import load_csv_and_manual, clean_expense_data, calculate_summary, get_category_totals, get_monthly_trends, get_category_trends, get_cumulative_savings
+from budget_visuals import plot_spending_pie, plot_spending_bar, plot_monthly_trends, plot_category_trends, plot_category_goals, plot_cumulative_savings
 from budget_notes import generate_budget_notes, generate_planners_notes
 
 
@@ -82,9 +82,15 @@ with col2:
     st.metric("Net Savings", f"{net_savings:,.0f} EGP")
     st.progress(savings_progress,
                 text=f"Savings Goal Progress: {savings_progress*100:.1f}%")
-
+    # adding goal-setting logic per category
     st.plotly_chart(plot_category_goals(category_totals,
                     category_goals), use_container_width=True)
+    # track cumulative savings vs. goal across months
+    cumulative_df = get_cumulative_savings(
+        df, monthly_income, monthly_savings_goal)
+    st.subheader("📈 Cumulative Savings Tracker")
+    st.plotly_chart(plot_cumulative_savings(
+        cumulative_df), use_container_width=True)
 
 
 # --- Planner's Notes ---

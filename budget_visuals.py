@@ -34,3 +34,10 @@ def plot_category_goals(category_totals, category_goals):
     fig = px.bar(df, x="Category", y=["Amount", "Goal"], barmode="group",
                  title="Actual vs. Goal Spending by Category")
     return fig
+
+
+def plot_cumulative_savings(cumulative_df):
+    fig = px.line(cumulative_df, x="Month", y=["Cumulative Savings", "Cumulative Goal"],
+                  title="Cumulative Savings vs. Goal", markers=True)
+    fig.update_layout(yaxis_title="EGP")
+    return fig
