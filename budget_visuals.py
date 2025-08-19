@@ -26,3 +26,11 @@ def plot_category_trends(category_trends):
     fig = px.bar(category_trends, x="Month", y="Amount", color="Category",
                  title="Monthly Spending by Category", barmode="stack")
     return fig
+
+
+def plot_category_goals(category_totals, category_goals):
+    df = category_totals.copy()
+    df["Goal"] = df["Category"].map(category_goals)
+    fig = px.bar(df, x="Category", y=["Amount", "Goal"], barmode="group",
+                 title="Actual vs. Goal Spending by Category")
+    return fig

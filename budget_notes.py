@@ -1,4 +1,4 @@
-def generate_budget_notes(category_totals, monthly_income, net_savings, savings_goal, profile):
+def generate_budget_notes(category_totals, monthly_income, net_savings, savings_goal, profile, category_goals):
     notes = []
 
     # Profile-based thresholds
@@ -35,6 +35,19 @@ def generate_budget_notes(category_totals, monthly_income, net_savings, savings_
     if net_savings > savings_goal:
         notes.append(
             "Great job! You're exceeding your savings goal this month.")
+
+    # Existing profile logic...
+
+    # Category goal comparison
+    for _, row in category_totals.iterrows():
+        cat = row["Category"]
+        spent = row["Amount"]
+        goal = category_goals.get(cat, None)
+        if goal and spent > goal:
+            notes.append(
+                f"⚠️ Spending in {cat} exceeded the goal by EGP {spent - goal:,.0f}.")
+
+    # Existing savings logic...
 
     return notes
 

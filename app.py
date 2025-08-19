@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 from budget_simulator import load_csv_and_manual, clean_expense_data, calculate_summary, get_category_totals, get_monthly_trends, get_category_trends
-from budget_visuals import plot_spending_pie, plot_spending_bar, plot_monthly_trends, plot_category_trends
+from budget_visuals import plot_spending_pie, plot_spending_bar, plot_monthly_trends, plot_category_trends, plot_category_goals
 from budget_notes import generate_budget_notes, generate_planners_notes
 
 
@@ -35,6 +35,14 @@ manual_entry = st.sidebar.data_editor(
     use_container_width=True,
     key="manual_entry"
 )
+
+st.sidebar.header("Category Spending Goals")
+category_goals = {}
+categories = ["Housing", "Food", "Transport",
+              "Entertainment", "Subscriptions", "Miscellaneous"]
+for cat in categories:
+    category_goals[cat] = st.sidebar.number_input(
+        f"{cat} Goal (EGP)", min_value=0.0, value=1000.0, step=100.0)
 
 # --- Data Processing ---
 df = load_csv_and_manual(uploaded_file, manual_entry)
@@ -75,11 +83,14 @@ with col2:
     st.progress(savings_progress,
                 text=f"Savings Goal Progress: {savings_progress*100:.1f}%")
 
+    st.plotly_chart(plot_category_goals(category_totals,
+                    category_goals), use_container_width=True)
+
 
 # --- Planner's Notes ---
 st.subheader("🧠 Planner's Notes")
 notes = generate_budget_notes(
-    category_totals, monthly_income, net_savings, monthly_savings_goal, profile)
+    category_totals, monthly_income, net_savings, monthly_savings_goal, profile, category_goals=category_goals)
 planner_notes = generate_planners_notes(df, monthly_income, savings_goal)
 
 if notes:
