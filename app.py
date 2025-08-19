@@ -4,7 +4,7 @@ import pandas as pd
 from budget_simulator import load_csv_and_manual, clean_expense_data, calculate_summary, get_category_totals, get_monthly_trends, get_category_trends, get_cumulative_savings
 from budget_visuals import plot_spending_pie, plot_spending_bar, plot_monthly_trends, plot_category_trends, plot_category_goals, plot_cumulative_savings
 from budget_notes import generate_budget_notes, generate_planners_notes
-
+from planner_context import PlannerContext
 
 # --- Page Config ---
 st.set_page_config(page_title="Budget Planner", layout="wide")
@@ -43,6 +43,14 @@ categories = ["Housing", "Food", "Transport",
 for cat in categories:
     category_goals[cat] = st.sidebar.number_input(
         f"{cat} Goal (EGP)", min_value=0.0, value=1000.0, step=100.0)
+
+# Create context object
+context = PlannerContext(
+    monthly_income=monthly_income,
+    savings_goal=monthly_savings_goal,
+    profile=profile,
+    category_goals=category_goals
+)
 
 # --- Data Processing ---
 df = load_csv_and_manual(uploaded_file, manual_entry)
@@ -95,8 +103,10 @@ with col2:
 
 # --- Planner's Notes ---
 st.subheader("🧠 Planner's Notes")
-notes = generate_budget_notes(
-    category_totals, monthly_income, net_savings, monthly_savings_goal, profile, category_goals=category_goals)
+# notes = generate_budget_notes(
+#     category_totals, monthly_income, net_savings, monthly_savings_goal, profile, category_goals=category_goals)
+notes = generate_budget_notes(category_totals, context)
+
 planner_notes = generate_planners_notes(df, monthly_income, savings_goal)
 
 if notes:
