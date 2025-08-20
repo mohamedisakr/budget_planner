@@ -2,10 +2,12 @@ def generate_budget_notes(category_totals, context):
     notes = []
 
     # Access values like this:
-    income = context.monthly_income
-    goal = context.savings_goal
-    profile = context.profile
-    cat_goals = context.category_goals
+    # income = context.monthly_income
+    # goal = context.savings_goal
+    # profile = context.profile
+    # cat_goals = context.category_goals
+
+    income, goal, profile, cat_goals = context
 
     # Example logic
     for _, row in category_totals.iterrows():
