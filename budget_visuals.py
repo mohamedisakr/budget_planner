@@ -11,9 +11,23 @@ color_map = {
 }
 
 
-def plot_spending_pie(category_totals):
-    fig = px.pie(category_totals, names="Category",
-                 values="Amount", title="Spending Breakdown")
+# def plot_spending_pie(category_totals):
+#     fig = px.pie(category_totals, names="Category",
+#                  values="Amount", title="Spending Breakdown")
+#     return fig
+def plot_spending_pie(df):
+    valid_categories = list(color_map.keys())
+    df = df[df["Category"].isin(valid_categories)]
+
+    fig = px.pie(
+        df,
+        names="Category",
+        values="Amount",
+        color="Category",
+        color_discrete_map=color_map
+    )
+    fig.update_traces(textinfo='percent+label')
+    fig.update_layout(title="Spending Breakdown by Category")
     return fig
 
 
@@ -23,11 +37,25 @@ def plot_spending_bar(category_totals):
     return fig
 
 
-def plot_monthly_trends(monthly_totals):
-    fig = px.line(monthly_totals, x="Month", y=["Amount", "Net Savings"],
-                  title="Monthly Spending & Savings Trend",
-                  markers=True)
-    fig.update_layout(yaxis_title="EGP")
+# def plot_monthly_trends(monthly_totals):
+#     fig = px.line(monthly_totals, x="Month", y=["Amount", "Net Savings"],
+#                   title="Monthly Spending & Savings Trend",
+#                   markers=True)
+#     fig.update_layout(yaxis_title="EGP")
+#     return fig
+def plot_monthly_trends(df):
+    # valid_categories = list(color_map.keys())
+    # df = df[df["Category"].isin(valid_categories)]
+
+    fig = px.bar(
+        df,
+        x="Month",
+        y="Amount",
+        # color="Category",
+        color_discrete_map=color_map,
+        barmode="group"
+    )
+    fig.update_layout(title="Monthly Spending Trends")
     return fig
 
 
