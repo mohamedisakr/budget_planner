@@ -1,6 +1,15 @@
 
 import plotly.express as px
 
+color_map = {
+    "Housing": "#4CAF50",
+    "Food": "#FF9800",
+    "Transport": "#2196F3",
+    "Entertainment": "#9C27B0",
+    "Subscriptions": "#00BCD4",
+    "Miscellaneous": "#607D8B"
+}
+
 
 def plot_spending_pie(category_totals):
     fig = px.pie(category_totals, names="Category",

@@ -7,8 +7,14 @@ from budget_notes import generate_budget_notes, generate_planners_notes
 from planner_context import PlannerContext
 
 # --- Page Config ---
-st.set_page_config(page_title="Budget Planner", layout="wide")
-st.title("🧮 Monthly Budget Planner")
+# st.set_page_config(page_title="Budget Planner", layout="wide")
+# st.title("🧮 Monthly Budget Planner")
+st.set_page_config(
+    page_title="Budget Planner",
+    page_icon="💰",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
 # --- toggle Demo Mode ---
 demo_mode = st.sidebar.checkbox("🔍 Enable Demo Mode", value=True)
@@ -23,11 +29,19 @@ profile = st.sidebar.selectbox("Select Profile", [
 
 st.sidebar.header("Income & Goals")
 monthly_income = st.sidebar.number_input(
-    "Monthly Income (EGP)", min_value=0.0, value=15000.0, step=500.0)
+    "Monthly Income (EGP)", min_value=0.0, value=12000.0, step=500.0,
+    help="Enter your total income for the current month.")
 monthly_savings_goal = st.sidebar.number_input(
-    "Savings Goal (EGP)", min_value=0.0, value=3000.0, step=500.0)
-savings_goal = st.number_input(
-    "Set Your Monthly Savings Goal", min_value=0, value=2000, step=500
+    "Savings Goal (EGP)", min_value=0.0, value=2000.0, step=500.0,
+    help="How much you'd like to save this month.")
+# savings_goal = st.number_input(
+#     "Monthly Savings Goal", min_value=0.0, value=2000.0, step=500.0,
+#     help="How much you'd like to save this month."
+# )
+profile = st.sidebar.selectbox(
+    "Client Profile", ["Young Couple",
+                       "Solo Professional", "Family", "Student"],
+    help="Choose a profile that best matches your lifestyle."
 )
 
 st.sidebar.header("Upload or Enter Expenses")
@@ -87,7 +101,8 @@ monthly_trends = get_monthly_trends(df, monthly_income)
 category_trends = get_category_trends(df)
 
 # --- Layout ---
-col1, col2 = st.columns([2, 1])
+# col1, col2 = st.columns([2, 1])
+col1, col2 = st.columns(2)
 
 with col1:
     st.subheader("📊 Spending Overview")
@@ -120,6 +135,7 @@ with col2:
 
 
 # --- Planner's Notes ---
+# st.markdown("### 🔍 Insights & Recommendations")
 st.subheader("🧠 Planner's Notes")
 # notes = generate_budget_notes(
 #     category_totals, monthly_income, net_savings, monthly_savings_goal, profile, category_goals=category_goals)
