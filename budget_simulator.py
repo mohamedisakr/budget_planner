@@ -32,6 +32,8 @@ def get_category_totals(df):
 
 
 def get_monthly_trends(df, monthly_income):
+    df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+    df = df.dropna(subset=["Date"])
     df["Month"] = df["Date"].dt.to_period("M").astype(str)
     monthly_totals = df.groupby("Month")["Amount"].sum().reset_index()
     monthly_totals["Net Savings"] = monthly_income - monthly_totals["Amount"]

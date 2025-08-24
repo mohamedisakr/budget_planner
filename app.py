@@ -10,6 +10,9 @@ from planner_context import PlannerContext
 st.set_page_config(page_title="Budget Planner", layout="wide")
 st.title("🧮 Monthly Budget Planner")
 
+# --- toggle Demo Mode ---
+demo_mode = st.sidebar.checkbox("🔍 Enable Demo Mode", value=True)
+
 # --- Sidebar Inputs ---
 st.sidebar.header("Client Profile")
 profile = st.sidebar.selectbox("Select Profile", [
@@ -56,7 +59,22 @@ context = PlannerContext(
 df = load_csv_and_manual(uploaded_file, manual_entry)
 df = clean_expense_data(df)
 
-if df.empty:
+if demo_mode:
+    df = pd.read_csv(r"data/sample.csv")  # Place this file in your repo
+    monthly_income = 12000
+    savings_goal = 2000
+    profile = "Young Couple"
+    category_goals = {
+        "Housing": 3000,
+        "Food": 1500,
+        "Transport": 800,
+        "Entertainment": 1000,
+        "Subscriptions": 400,
+        "Miscellaneous": 500
+    }
+else:
+    # Your existing input logic
+    # if df.empty:
     st.warning("Please upload a CSV or enter expenses manually.")
     st.stop()
 
@@ -108,6 +126,9 @@ st.subheader("🧠 Planner's Notes")
 notes = generate_budget_notes(category_totals, context)
 
 planner_notes = generate_planners_notes(df, monthly_income, savings_goal)
+
+if demo_mode:
+    st.info("Demo Mode is active. Sample data loaded for quick exploration.")
 
 if notes:
     for note in notes:
