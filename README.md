@@ -4,15 +4,27 @@ A modular, planner-grade budgeting tool built with **Streamlit**, **Plotly**, an
 
 ---
 
-## 🚀 Features
+## 🚀 Key Features
 
-- **CSV Upload + Manual Entry**: Combine uploaded expenses with on-the-fly manual inputs.
+- Planner Mode toggle for clean insights
+- Category goal tracking and savings analysis
+- Exportable Planner's Notes
+- Scenario simulation and year-end projections
+<!-- - **CSV Upload + Manual Entry**: Combine uploaded expenses with on-the-fly manual inputs.
 - **Clean Modular Design**: Split into simulation, visuals, and notes for scalability and clarity.
 - **Interactive Visuals**: Pie and bar charts powered by Plotly for intuitive category analysis.
 - **Planner’s Notes Engine**: Generates personalized insights based on income, spending, and goals.
-- **Streamlit UI**: Responsive layout with sidebar inputs and metric cards.
+- **Streamlit UI**: Responsive layout with sidebar inputs and metric cards. -->
 
 ---
+
+### 🧭 Planner's Journey
+1. Define your income, goals, and profile
+2. Track spending across categories
+3. Compare actual vs. goal
+4. Simulate future scenarios
+5. Export personalized Planner’s Notes
+
 
 ## 🧩 Modular Structure
 
